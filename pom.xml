@@ -80,16 +80,17 @@
             </configuration>
           </configuration>
         </plugin>
-      </plugins>plugin>
+        <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>tomcat-maven-plugin</artifactId>
         <version>1.1</version>
         <configuration>
             <server>mytomcatr</server>
-            <url>http://192.168.0.105:7070/manager/html</url> 
+            <url>http://192.168.0.105:7070/manager</url> 
         </configuration>
     </plugin>
-    </pluginManagement>
+     </plugins>
+     </pluginManagement>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
