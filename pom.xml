@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Codehaus CARGO, copyright 2004-2011 Vincent Massol, 2012-2021 Ali Tokmen.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.java.com</groupId>
+  <artifactId>samplewar</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>war</packaging>
+  <name>Maven Webapp</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>5.7.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <servlet.port>8080</servlet.port>
+    <hostname>localhost</hostname>
+    <username>admin</username>
+    <password></password>
+  </properties>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.8.1</version>
+          <configuration>
+            <source>1.8</source>
+            <target>1.8</target>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>2.22.2</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.cargo</groupId>
+          <artifactId>cargo-maven3-plugin</artifactId>
+          <version>1.9.4</version>
+          <configuration>
+            <container>
+              <type>remote</type>
+            </container>
+            <configuration>
+              <type>runtime</type>
+              <properties>
+                <cargo.hostname>${hostname}</cargo.hostname>
+                <cargo.servlet.port>${servlet.port}</cargo.servlet.port>
+                <cargo.remote.username>${username}</cargo.remote.username>
+                <cargo.remote.password>${password}</cargo.remote.password>
+              </properties>
+            </configuration>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>perform-it</id>
+            <goals>
+              <goal>integration-test</goal>
+            </goals>
+            <configuration>
+              <systemProperties>
+                <property>
+                  <name>servlet.port</name>
+                  <value>${servlet.port}</value>
+                </property>
+                <property>
+                  <name>hostname</name>
+                  <value>${hostname}</value>
+                </property>
+              </systemProperties>
+            </configuration>
+          </execution>
+          <execution>
+            <id>verify-it</id>
+            <goals>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.cargo</groupId>
+        <artifactId>cargo-maven3-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>deploy-cargo</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>deployer-deploy</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>undeploy-cargo</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>deployer-undeploy</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <!--
+      Before using the Jetty remote deployer, please read:
+      https://codehaus-cargo.github.io/cargo/Jetty+Remote+Deployer.html
+      -->
+    <profile>
+      <id>jetty9x</id>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>cargo-maven3-plugin</artifactId>
+              <configuration>
+                <container>
+                  <containerId>jetty9x</containerId>
+                </container>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+    <profile>
+      <id>tomcat9x</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>cargo-maven3-plugin</artifactId>
+              <configuration>
+                <container>
+                  <containerId>tomcat9x</containerId>
+                </container>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+    <profile>
+      <id>jonas5x</id>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>cargo-maven3-plugin</artifactId>
+              <configuration>
+                <container>
+                  <containerId>jonas5x</containerId>
+                </container>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+    <profile>
+      <id>jboss51x</id>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>cargo-maven3-plugin</artifactId>
+              <configuration>
+                <container>
+                  <containerId>jboss51x</containerId>
+                </container>
+              </configuration>
+
+              <!--
+                The JBoss remote deployer requires some additional dependencies. Read more on:
+                https://codehaus-cargo.github.io/cargo/JBoss+Remote+Deployer.html
+                -->
+              <dependencies>
+                <dependency>
+                  <groupId>org.jboss.integration</groupId>
+                  <artifactId>jboss-profileservice-spi</artifactId>
+                  <version>5.1.0.GA</version>
+                </dependency>
+                <dependency>
+                  <groupId>org.jboss.jbossas</groupId>
+                  <artifactId>jboss-as-client</artifactId>
+                  <version>5.1.0.GA</version>
+                  <type>pom</type>
+                </dependency>
+              </dependencies>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+
+      <!--
+        Some transitive dependencies of JBoss artifacts, for example apache-xerces:xml-apis, are
+        only available on the JBoss third party repository.
+        -->
+      <pluginRepositories>
+        <pluginRepository>
+          <id>repository.jboss.org_thirdparty-releases</id>
+          <name>JBoss.org third party releases repository</name>
+          <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-releases</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+          <id>repository.jboss.org_thirdparty-uploads</id>
+          <name>JBoss.org third party uploads repository</name>
+          <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-uploads</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+      <repositories>
+        <repository>
+          <id>repository.jboss.org_thirdparty-releases</id>
+          <name>JBoss.org third party releases repository</name>
+          <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-releases</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+        <repository>
+          <id>repository.jboss.org_thirdparty-uploads</id>
+          <name>JBoss.org third party uploads repository</name>
+          <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-uploads</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+    </profile>
+    <profile>
+      <id>jboss7x</id>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>cargo-maven3-plugin</artifactId>
+              <configuration>
+                <container>
+                  <containerId>jboss7x</containerId>
+                </container>
+              </configuration>
+
+              <!--
+                The JBoss remote deployer requires some additional dependencies. Read more on:
+                https://codehaus-cargo.github.io/cargo/JBoss+Remote+Deployer.html
+                -->
+              <dependencies>
+                <dependency>
+                  <groupId>org.jboss.as</groupId>
+                  <artifactId>jboss-as-controller-client</artifactId>
+                  <version>7.0.2.Final</version>
+                </dependency>
+              </dependencies>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+    <profile>
+      <id>glassfish5x</id>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.codehaus.cargo</groupId>
+              <artifactId>cargo-maven3-plugin</artifactId>
+              <configuration>
+                <container>
+                  <containerId>glassfish5x</containerId>
+                </container>
+              </configuration>
+
+              <!--
+                The GlassFish remote deployer requires some additional dependencies. Read more on:
+                https://codehaus-cargo.github.io/cargo/JSR88.html
+                -->
+              <dependencies>
+                <dependency>
+                  <groupId>org.glassfish.main.deployment</groupId>
+                  <artifactId>deployment-client</artifactId>
+                  <version>5.1.0</version>
+                </dependency>
+              </dependencies>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+  </profiles>
+</project>
