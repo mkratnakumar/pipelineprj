@@ -1,4 +1,4 @@
-FROM tomcat:8-jdk8 
+FROM tomcat:8-jre8 
 
 # Maintainer 
 MAINTAINER "mkratnakumar" 
