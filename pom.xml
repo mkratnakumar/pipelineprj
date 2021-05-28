@@ -39,7 +39,7 @@
     <jdk.version>1.8</jdk.version>
 		<junit.version>4.11</junit.version>
 	         <log4j.version>1.2.17</log4j.version>
-		 <sonar.host.url>192.168.0.104:9000/</sonar.host.url>
+		 <sonar.host.url>192.168.0.104:9000</sonar.host.url>
      <sonar.login>b255b3a2a6834eb795a91b0ce37e304ffd8c7628</sonar.login>		
 		<!--<sonar.login>admin</sonar.login>
 		<sonar.password>admin</sonar.password> -->
@@ -103,6 +103,13 @@
         </plugin>
        </plugins>
      </pluginManagement>
+	  <plugins>
+      <plugin>
+        <groupId>org.sonarsource.scanner.maven</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
+        <version>3.7.0.1746</version>
+      </plugin>
+    </plugins>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
