@@ -36,17 +36,7 @@
   </dependencies>
 
   <properties>
-    <jdk.version>1.8</jdk.version>
-		<junit.version>4.11</junit.version>
-	         <log4j.version>1.2.17</log4j.version>
-		 <sonar.host.url>192.168.0.104:9000</sonar.host.url>
-     <sonar.login>b255b3a2a6834eb795a91b0ce37e304ffd8c7628</sonar.login>		
-		<!--<sonar.login>admin</sonar.login>
-		<sonar.password>admin</sonar.password> -->
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <servlet.port>8080</servlet.port>
     <hostname>localhost</hostname>
